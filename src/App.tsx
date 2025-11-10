@@ -1,7 +1,9 @@
-import { ReactFlow, Background, Controls, MiniMap, Node, Edge } from '@xyflow/react'
+import { ReactFlow, Background, Controls, MiniMap, Node, Edge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange, Connection, addEdge, ReactFlowProvider, useReactFlow } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import './styles/effects.css'
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
+import { useSaveRestore } from './hooks/useSaveRestore'
+import { isValidConnection } from './utils/connectionValidation'
 import DataNode from './nodes/DataNode'
 import ActionNode from './nodes/ActionNode'
 import MediaNode from './nodes/MediaNode'
@@ -14,9 +16,14 @@ import SmartEdge from './edges/SmartEdge'
 import LabeledEdge from './edges/LabeledEdge'
 import GlowEdge from './edges/GlowEdge'
 import ParticleBackground from './components/ParticleBackground'
+import FlowControls from './components/FlowControls'
+import HelperLines from './components/HelperLines'
+import ContextMenu from './components/ContextMenu'
+import { useHelperLines } from './hooks/useHelperLines'
+import { useContextMenu } from './hooks/useContextMenu'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 const initialNodes: Node[] = [
-  // DataNode examples
   {
     id: '1',
     position: { x: 100, y: 50 },
@@ -41,7 +48,6 @@ const initialNodes: Node[] = [
     },
     type: 'dataNode',
   },
-  // ActionNode example
   {
     id: '3',
     position: { x: 100, y: 250 },
@@ -54,7 +60,6 @@ const initialNodes: Node[] = [
     },
     type: 'actionNode',
   },
-  // MediaNode example
   {
     id: '4',
     position: { x: 400, y: 250 },
@@ -66,7 +71,6 @@ const initialNodes: Node[] = [
     },
     type: 'mediaNode',
   },
-  // CodeNode example
   {
     id: '5',
     position: { x: 700, y: 50 },
@@ -78,7 +82,6 @@ const initialNodes: Node[] = [
     },
     type: 'codeNode',
   },
-  // DecisionNode example
   {
     id: '6',
     position: { x: 700, y: 250 },
@@ -90,7 +93,6 @@ const initialNodes: Node[] = [
     },
     type: 'decisionNode',
   },
-  // LoopNode example
   {
     id: '7',
     position: { x: 100, y: 500 },
@@ -102,7 +104,6 @@ const initialNodes: Node[] = [
     },
     type: 'loopNode',
   },
-  // IntegrationNode example
   {
     id: '8',
     position: { x: 400, y: 500 },
@@ -115,6 +116,55 @@ const initialNodes: Node[] = [
       responsePreview: '{"users": [{"id": 1, "name": "John"}]}',
     },
     type: 'integrationNode',
+  },
+  // Parent node example (group container)
+  {
+    id: 'parent-1',
+    position: { x: 1000, y: 50 },
+    data: {
+      label: 'User Workflow',
+    },
+    type: 'dataNode',
+    style: {
+      width: 400,
+      height: 300,
+      backgroundColor: 'rgba(59, 130, 246, 0.1)',
+      border: '2px dashed rgba(59, 130, 246, 0.5)',
+    },
+  },
+  // Child nodes constrained within parent
+  {
+    id: 'child-1',
+    position: { x: 20, y: 60 },
+    data: {
+      label: 'Validate Input',
+    },
+    type: 'actionNode',
+    parentId: 'parent-1',
+    extent: 'parent' as const,
+    expandParent: true,
+  },
+  {
+    id: 'child-2',
+    position: { x: 220, y: 60 },
+    data: {
+      label: 'Process Data',
+    },
+    type: 'codeNode',
+    parentId: 'parent-1',
+    extent: 'parent' as const,
+    expandParent: true,
+  },
+  {
+    id: 'child-3',
+    position: { x: 120, y: 180 },
+    data: {
+      label: 'Store Result',
+    },
+    type: 'integrationNode',
+    parentId: 'parent-1',
+    extent: 'parent' as const,
+    expandParent: true,
   },
 ]
 
@@ -144,11 +194,58 @@ const initialEdges: Edge[] = [
     target: '8',
     type: 'smart',
   },
+  // Edges between child nodes (inside parent)
+  {
+    id: 'e-child-1-2',
+    source: 'child-1',
+    target: 'child-2',
+    type: 'labeled',
+    data: { label: 'Valid' },
+  },
+  {
+    id: 'e-child-2-3',
+    source: 'child-2',
+    target: 'child-3',
+    type: 'glow',
+  },
 ]
 
-function App() {
-  const [nodes] = useState<Node[]>(initialNodes)
-  const [edges] = useState<Edge[]>(initialEdges)
+function FlowCanvas() {
+  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [edges, setEdges] = useState<Edge[]>(initialEdges)
+
+  const { screenToFlowPosition } = useReactFlow()
+
+  // Helper lines for node alignment
+  const { helperLines, onNodesChangeWithSnap } = useHelperLines(nodes, true, 10)
+
+  // Context menu
+  const { menu, showNodeContextMenu, showEdgeContextMenu, showCanvasContextMenu, hideMenu } = useContextMenu()
+
+  // Save/Restore functionality with auto-save
+  const { saveFlow, loadFlow, exportFlow, importFlow } = useSaveRestore(
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    true, // auto-save enabled
+    3000 // auto-save delay: 3 seconds
+  )
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onSave: saveFlow,
+    onLoad: loadFlow,
+    onExport: exportFlow,
+  })
+
+  // Load saved flow on mount
+  useEffect(() => {
+    const loaded = loadFlow()
+    if (loaded) {
+      console.log('Loaded saved flow from localStorage')
+    }
+  }, [loadFlow])
 
   const nodeTypes = useMemo(
     () => ({
@@ -173,17 +270,90 @@ function App() {
     []
   )
 
-  const onNodesChange = useCallback(() => {
-    // Will be implemented with state management
-  }, [])
+  const onNodesChange = useCallback(
+    (changes: NodeChange<Node>[]) => {
+      onNodesChangeWithSnap(changes, (updatedChanges) => {
+        setNodes((nds) => applyNodeChanges(updatedChanges, nds))
+      })
+    },
+    [onNodesChangeWithSnap, setNodes]
+  )
 
-  const onEdgesChange = useCallback(() => {
-    // Will be implemented with state management
-  }, [])
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange<Edge>[]) => {
+      setEdges((eds) => applyEdgeChanges(changes, eds))
+    },
+    [setEdges]
+  )
+
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      setEdges((eds) => addEdge(connection, eds))
+    },
+    [setEdges]
+  )
+
+  // Handle file import
+  const handleFileImport = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0]
+      if (file) {
+        importFlow(file).then((success) => {
+          if (success) {
+            console.log('Flow imported successfully')
+          } else {
+            alert('Failed to import flow. Please check the file format.')
+          }
+        })
+      }
+    },
+    [importFlow]
+  )
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <ParticleBackground />
+      <HelperLines lines={helperLines} />
+
+      {/* Save/Restore Controls */}
+      <div className="absolute top-4 left-4 flex flex-col gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+        <button
+          onClick={saveFlow}
+          className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors text-sm font-medium"
+          title="Save flow to localStorage (Ctrl+S)"
+        >
+          💾 Save
+        </button>
+        <button
+          onClick={loadFlow}
+          className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium"
+          title="Load flow from localStorage (Ctrl+L)"
+        >
+          📂 Load
+        </button>
+        <button
+          onClick={exportFlow}
+          className="px-3 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm font-medium"
+          title="Export flow as JSON file (Ctrl+E)"
+        >
+          ⬇️ Export
+        </button>
+        <label className="px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors text-sm font-medium cursor-pointer text-center">
+          ⬆️ Import
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleFileImport}
+            className="hidden"
+          />
+        </label>
+      </div>
+
+      {/* Context Menu */}
+      {menu.visible && (
+        <ContextMenu x={menu.x} y={menu.y} items={menu.items} onClose={hideMenu} />
+      )}
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -191,10 +361,28 @@ function App() {
         edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onNodeContextMenu={(event, node) => showNodeContextMenu(event as React.MouseEvent, node)}
+        onEdgeContextMenu={(event, edge) => {
+          if ('type' in edge) {
+            showEdgeContextMenu(event as React.MouseEvent, edge as Edge)
+          }
+        }}
+        onPaneContextMenu={(event) => showCanvasContextMenu(event as React.MouseEvent, screenToFlowPosition)}
+        isValidConnection={(connection) =>
+          isValidConnection(connection, edges, nodes)
+        }
+        edgesReconnectable={true}
+        reconnectRadius={20}
+        autoPanOnConnect={true}
+        autoPanOnNodeDrag={true}
+        deleteKeyCode="Delete"
+        multiSelectionKeyCode="Control"
         fitView
       >
         <Background />
         <Controls />
+        <FlowControls />
         <MiniMap
           nodeColor={(node) => {
             switch (node.type) {
@@ -219,6 +407,14 @@ function App() {
         />
       </ReactFlow>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <ReactFlowProvider>
+      <FlowCanvas />
+    </ReactFlowProvider>
   )
 }
 

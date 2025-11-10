@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
 import { Handle, Position, NodeProps, Node } from '@xyflow/react'
+import CustomNodeToolbar from '../components/CustomNodeToolbar'
 
 export type DataNodeData = {
   label: string
@@ -12,8 +13,23 @@ export type DataNodeData = {
 
 export type DataNodeType = Node<DataNodeData, 'dataNode'>
 
-const DataNode = ({ data, selected }: NodeProps<DataNodeType>) => {
+const DataNode = ({ id, data, selected }: NodeProps<DataNodeType>) => {
   const [expanded, setExpanded] = useState(false)
+
+  const handleDelete = () => {
+    console.log(`Delete node: ${id}`)
+    // Will be implemented with proper node deletion
+  }
+
+  const handleDuplicate = () => {
+    console.log(`Duplicate node: ${id}`)
+    // Will be implemented with proper node duplication
+  }
+
+  const handleChangeColor = () => {
+    console.log(`Change color for node: ${id}`)
+    // Will be implemented with color picker
+  }
 
   const getTrendColor = (trend?: string) => {
     switch (trend) {
@@ -38,13 +54,22 @@ const DataNode = ({ data, selected }: NodeProps<DataNodeType>) => {
   }
 
   return (
-    <div
-      className={`px-4 py-3 shadow-lg rounded-lg bg-white border-2 transition-all ${
-        selected ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'
-      }`}
-      style={{ minWidth: 200 }}
-    >
-      <Handle
+    <>
+      {selected && (
+        <CustomNodeToolbar
+          nodeId={id}
+          onDelete={handleDelete}
+          onDuplicate={handleDuplicate}
+          onChangeColor={handleChangeColor}
+        />
+      )}
+      <div
+        className={`px-4 py-3 shadow-lg rounded-lg bg-white border-2 transition-all ${
+          selected ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'
+        }`}
+        style={{ minWidth: 200 }}
+      >
+        <Handle
         type="target"
         position={Position.Top}
         className="w-3 h-3 !bg-blue-500"
@@ -98,12 +123,13 @@ const DataNode = ({ data, selected }: NodeProps<DataNodeType>) => {
         )}
       </div>
 
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        className="w-3 h-3 !bg-blue-500"
-      />
-    </div>
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          className="w-3 h-3 !bg-blue-500"
+        />
+      </div>
+    </>
   )
 }
 
