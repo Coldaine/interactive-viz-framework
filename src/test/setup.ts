@@ -3,7 +3,7 @@ import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vitest'
 
 // Mock ResizeObserver for React Flow
-global.ResizeObserver = class ResizeObserver {
+globalThis.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}
@@ -11,7 +11,7 @@ global.ResizeObserver = class ResizeObserver {
 
 // Mock DOMMatrixReadOnly for React Flow
 // @ts-expect-error - DOMMatrixReadOnly is not available in jsdom
-global.DOMMatrixReadOnly = class DOMMatrixReadOnly {
+globalThis.DOMMatrixReadOnly = class DOMMatrixReadOnly {
   m22: number
   constructor(transform: string) {
     const scale = transform?.match(/scale\(([1-9.])\)/)?.[1]
