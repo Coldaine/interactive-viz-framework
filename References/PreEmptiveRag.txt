@@ -1,0 +1,25 @@
+Is it a thing in RAG to send agents preemptively to search for things and confirm if there's contradictory information in the database? If so, begin to weed out incorrect information and research and make sure it's correct. 
+You said:
+Can you tell me what your source for this is? Point me to a couple of papers and maybe a GitHub implementation of this. 
+You said:
+Most of these repos are pretty out of date. It feels like maybe a concept that's not as explored at this point. Is RAG in general in a bit of a decline? 
+You said:
+Can you search Github repositories for any implementation that marries a coding agent to correct itself rank? In advance of writing code
+You said:
+When you say "like the open hands" there's an opportunity for plugging in the like an agent, but that's not an intrinsic feature, right? 
+You said:
+How does that code-as-actions differ from VSCode's GitHub Copilot or Claude Code? I mean, isn't that just intrinsic? I feel like that's the agent loop for all coding agents right now. 
+You said:
+No no no, see you need to search your information is outdated, and Copilot and Claude code are not in line completion or quick fix suggestions; they're pure agentic at this point. 
+You said:
+I want to talk a little bit more, and you probably need to think hard on this one. I want to basically design a framework where we take documentation as code, but at a high level (our requirements documents are high-level and made immutable to the LLM, except with our express permission). We have to design some hip codes around that.
+
+Those requirements are translated into design documents. We then run iteratively among all of the requirements and all of the nodes end-to-end in the app, aligning all of the design documents. That happens automatically with any change we make to the requirements or as we iteratively develop better and better design documents.
+
+Finally, we have a small army of cheaper, smaller, fast agents that make several versions of each part of the code, and the higher-level agents evaluate against that the design and architecture documents. Is there a name for that, or can you help me draw that out and flesh that framework out? 
+You said:
+An addition I want to make here is powerful visualization of the nodes and relationships. Additionally, visualization of the activity if of the small agents. I assume that visualizing the small agents might be done through lang graph?
+You said:
+Can you flesh out the MVP and then successive phases? Do we need to have a "test project" we scaffold around to understand? Or just go straight to implementing all the ideas, and test actually constructing something later?
+You said:
+is this the "librarian" project?
