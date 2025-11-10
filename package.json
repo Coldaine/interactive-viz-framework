@@ -40,6 +40,7 @@
     "vitest": "^4.0.8"
   },
   "dependencies": {
+    "@xyflow/react": "^12.9.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
