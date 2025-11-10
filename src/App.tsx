@@ -1,9 +1,12 @@
 import { ReactFlow, Background, Controls, MiniMap, Node, Edge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange, Connection, addEdge, ReactFlowProvider, useReactFlow } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import './styles/effects.css'
+import './styles/themes.css'
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useSaveRestore } from './hooks/useSaveRestore'
 import { isValidConnection } from './utils/connectionValidation'
+import { useTheme } from './hooks/useTheme'
+import { useUndo } from './hooks/useUndo'
 import DataNode from './nodes/DataNode'
 import ActionNode from './nodes/ActionNode'
 import MediaNode from './nodes/MediaNode'
@@ -19,9 +22,13 @@ import ParticleBackground from './components/ParticleBackground'
 import FlowControls from './components/FlowControls'
 import HelperLines from './components/HelperLines'
 import ContextMenu from './components/ContextMenu'
+import ThemeToggle from './components/ThemeToggle'
 import { useHelperLines } from './hooks/useHelperLines'
 import { useContextMenu } from './hooks/useContextMenu'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
+import ExportMenu from './components/ExportMenu'
+import ImportMenu from './components/ImportMenu'
+import UndoRedoControls from './components/UndoRedoControls'
 
 const initialNodes: Node[] = [
   {
@@ -216,6 +223,9 @@ function FlowCanvas() {
 
   const { screenToFlowPosition } = useReactFlow()
 
+  // Initialize theme
+  useTheme()
+
   // Helper lines for node alignment
   const { helperLines, onNodesChangeWithSnap } = useHelperLines(nodes, true, 10)
 
@@ -223,7 +233,7 @@ function FlowCanvas() {
   const { menu, showNodeContextMenu, showEdgeContextMenu, showCanvasContextMenu, hideMenu } = useContextMenu()
 
   // Save/Restore functionality with auto-save
-  const { saveFlow, loadFlow, exportFlow, importFlow } = useSaveRestore(
+  const { saveFlow, loadFlow } = useSaveRestore(
     nodes,
     edges,
     setNodes,
@@ -232,11 +242,18 @@ function FlowCanvas() {
     3000 // auto-save delay: 3 seconds
   )
 
+  // Undo/Redo functionality
+  const { undo, redo, canUndo, canRedo, saveSnapshot } = useUndo({
+    debounceMs: 500,
+    skipViewportOnly: true,
+  })
+
   // Keyboard shortcuts
   useKeyboardShortcuts({
     onSave: saveFlow,
     onLoad: loadFlow,
-    onExport: exportFlow,
+    onUndo: undo,
+    onRedo: redo,
   })
 
   // Load saved flow on mount
@@ -275,39 +292,28 @@ function FlowCanvas() {
       onNodesChangeWithSnap(changes, (updatedChanges) => {
         setNodes((nds) => applyNodeChanges(updatedChanges, nds))
       })
+      // Save snapshot after node changes
+      saveSnapshot()
     },
-    [onNodesChangeWithSnap, setNodes]
+    [onNodesChangeWithSnap, setNodes, saveSnapshot]
   )
 
   const onEdgesChange = useCallback(
     (changes: EdgeChange<Edge>[]) => {
       setEdges((eds) => applyEdgeChanges(changes, eds))
+      // Save snapshot after edge changes
+      saveSnapshot()
     },
-    [setEdges]
+    [setEdges, saveSnapshot]
   )
 
   const onConnect = useCallback(
     (connection: Connection) => {
       setEdges((eds) => addEdge(connection, eds))
+      // Save snapshot after new connection
+      saveSnapshot()
     },
-    [setEdges]
-  )
-
-  // Handle file import
-  const handleFileImport = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0]
-      if (file) {
-        importFlow(file).then((success) => {
-          if (success) {
-            console.log('Flow imported successfully')
-          } else {
-            alert('Failed to import flow. Please check the file format.')
-          }
-        })
-      }
-    },
-    [importFlow]
+    [setEdges, saveSnapshot]
   )
 
   return (
@@ -315,8 +321,8 @@ function FlowCanvas() {
       <ParticleBackground />
       <HelperLines lines={helperLines} />
 
-      {/* Save/Restore Controls */}
-      <div className="absolute top-4 left-4 flex flex-col gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+      {/* Save/Restore/Export/Import Controls */}
+      <div className="absolute top-4 left-4 flex flex-col gap-2 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 z-10 border border-gray-200 dark:border-slate-600">
         <button
           onClick={saveFlow}
           className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors text-sm font-medium"
@@ -331,22 +337,18 @@ function FlowCanvas() {
         >
           📂 Load
         </button>
-        <button
-          onClick={exportFlow}
-          className="px-3 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm font-medium"
-          title="Export flow as JSON file (Ctrl+E)"
-        >
-          ⬇️ Export
-        </button>
-        <label className="px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors text-sm font-medium cursor-pointer text-center">
-          ⬆️ Import
-          <input
-            type="file"
-            accept=".json"
-            onChange={handleFileImport}
-            className="hidden"
-          />
-        </label>
+        <ExportMenu />
+        <ImportMenu />
+      </div>
+
+      {/* Undo/Redo Controls */}
+      <div className="absolute top-4 left-[180px] bg-white dark:bg-slate-800 rounded-lg shadow-lg p-2 z-10 border border-gray-200 dark:border-slate-600">
+        <UndoRedoControls onUndo={undo} onRedo={redo} canUndo={canUndo} canRedo={canRedo} />
+      </div>
+
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
       </div>
 
       {/* Context Menu */}

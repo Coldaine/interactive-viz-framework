@@ -5,6 +5,8 @@ interface KeyboardShortcutsOptions {
   onSave?: () => void
   onLoad?: () => void
   onExport?: () => void
+  onUndo?: () => void
+  onRedo?: () => void
 }
 
 /**
@@ -207,6 +209,24 @@ export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => 
         event.preventDefault()
         fitView({ padding: 0.2, duration: 400 })
         console.log('Fit view triggered by keyboard shortcut')
+      }
+
+      // Ctrl/Cmd + Z - Undo
+      if (isCtrl && !isShift && event.key === 'z') {
+        event.preventDefault()
+        if (options.onUndo) {
+          options.onUndo()
+          console.log('Undo triggered by keyboard shortcut')
+        }
+      }
+
+      // Ctrl/Cmd + Shift + Z - Redo (or Ctrl/Cmd + Y on Windows)
+      if ((isCtrl && isShift && event.key === 'z') || (isCtrl && event.key === 'y')) {
+        event.preventDefault()
+        if (options.onRedo) {
+          options.onRedo()
+          console.log('Redo triggered by keyboard shortcut')
+        }
       }
 
       // Ctrl/Cmd + Shift + A - Add Data Node (example)

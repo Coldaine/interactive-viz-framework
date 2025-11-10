@@ -1,0 +1,235 @@
+/* Theme CSS Variables */
+
+/* Light theme (default) */
+:root {
+  /* Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --bg-overlay: rgba(255, 255, 255, 0.95);
+
+  /* Text colors */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* Borders */
+  --border-primary: #e5e7eb;
+  --border-secondary: #d1d5db;
+  --border-focus: #3b82f6;
+
+  /* Node backgrounds */
+  --node-bg: #ffffff;
+  --node-bg-hover: #f9fafb;
+  --node-border: #e5e7eb;
+  --node-border-selected: #3b82f6;
+
+  /* Node type colors */
+  --node-data: #3b82f6;
+  --node-action: #10b981;
+  --node-media: #f59e0b;
+  --node-code: #8b5cf6;
+  --node-decision: #ef4444;
+  --node-loop: #06b6d4;
+  --node-integration: #ec4899;
+
+  /* Edge colors */
+  --edge-default: #6b7280;
+  --edge-selected: #3b82f6;
+  --edge-glow: rgba(59, 130, 246, 0.5);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Special effects */
+  --glow-ring: rgba(59, 130, 246, 0.2);
+  --particle-color: rgba(59, 130, 246, 0.3);
+
+  /* Controls */
+  --control-bg: #ffffff;
+  --control-border: #e5e7eb;
+  --control-text: #374151;
+  --control-hover: #f3f4f6;
+
+  /* React Flow specific */
+  --rf-background-pattern: #e5e7eb;
+  --rf-minimap-bg: rgba(255, 255, 255, 0.95);
+  --rf-minimap-mask: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme */
+:root.dark {
+  /* Backgrounds */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-overlay: rgba(15, 23, 42, 0.95);
+
+  /* Text colors */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Borders */
+  --border-primary: #334155;
+  --border-secondary: #475569;
+  --border-focus: #60a5fa;
+
+  /* Node backgrounds */
+  --node-bg: #1e293b;
+  --node-bg-hover: #334155;
+  --node-border: #475569;
+  --node-border-selected: #60a5fa;
+
+  /* Node type colors (slightly adjusted for dark mode) */
+  --node-data: #60a5fa;
+  --node-action: #34d399;
+  --node-media: #fbbf24;
+  --node-code: #a78bfa;
+  --node-decision: #f87171;
+  --node-loop: #22d3ee;
+  --node-integration: #f472b6;
+
+  /* Edge colors */
+  --edge-default: #94a3b8;
+  --edge-selected: #60a5fa;
+  --edge-glow: rgba(96, 165, 250, 0.5);
+
+  /* Shadows (darker for depth) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+
+  /* Special effects */
+  --glow-ring: rgba(96, 165, 250, 0.3);
+  --particle-color: rgba(96, 165, 250, 0.4);
+
+  /* Controls */
+  --control-bg: #1e293b;
+  --control-border: #475569;
+  --control-text: #e2e8f0;
+  --control-hover: #334155;
+
+  /* React Flow specific */
+  --rf-background-pattern: #475569;
+  --rf-minimap-bg: rgba(30, 41, 59, 0.95);
+  --rf-minimap-mask: rgba(0, 0, 0, 0.3);
+}
+
+/* Smooth theme transitions */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Disable transitions for motion-reduced preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Apply theme colors to common elements */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* React Flow background pattern color */
+.react-flow__background {
+  background-color: var(--bg-primary);
+}
+
+.react-flow__background-pattern {
+  stroke: var(--rf-background-pattern);
+}
+
+/* React Flow minimap */
+.react-flow__minimap {
+  background-color: var(--rf-minimap-bg);
+  border: 1px solid var(--border-primary);
+}
+
+.react-flow__minimap-mask {
+  fill: var(--rf-minimap-mask);
+}
+
+/* React Flow controls */
+.react-flow__controls {
+  background-color: var(--control-bg);
+  border: 1px solid var(--control-border);
+}
+
+.react-flow__controls-button {
+  background-color: var(--control-bg);
+  border-bottom: 1px solid var(--control-border);
+  color: var(--control-text);
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--control-hover);
+}
+
+/* React Flow edges */
+.react-flow__edge-path {
+  stroke: var(--edge-default);
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--edge-selected);
+}
+
+/* Utility classes for theme-aware styling */
+.theme-bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.theme-bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.theme-bg-tertiary {
+  background-color: var(--bg-tertiary);
+}
+
+.theme-text-primary {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.theme-border {
+  border-color: var(--border-primary);
+}
+
+.theme-node-bg {
+  background-color: var(--node-bg);
+}
+
+.theme-node-border {
+  border-color: var(--node-border);
+}
+
+.theme-shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.theme-shadow-lg {
+  box-shadow: var(--shadow-lg);
+}

@@ -44,11 +44,9 @@
     "@types/prismjs": "^1.26.5",
     "@xyflow/react": "^12.9.2",
     "framer-motion": "^12.23.24",
-    "html-to-image": "^1.11.13",
     "prismjs": "^1.30.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.17",
-    "zustand": "^5.0.8"
+    "tailwindcss": "^4.1.17"
   }
 }

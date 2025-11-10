@@ -91,23 +91,192 @@ export const exportFlowToJSON = (nodes: Node[], edges: Edge[], viewport: Viewpor
   }
 }
 
+export interface ValidationError {
+  field: string
+  message: string
+}
+
 /**
- * Validate imported flow state
+ * Validate node structure
  */
-export const validateFlowState = (data: unknown): data is FlowState => {
-  if (typeof data !== 'object' || data === null) return false
+const validateNode = (node: unknown, index: number): ValidationError[] => {
+  const errors: ValidationError[] = []
+
+  if (typeof node !== 'object' || node === null) {
+    errors.push({
+      field: `nodes[${index}]`,
+      message: 'Node must be an object',
+    })
+    return errors
+  }
+
+  const n = node as Record<string, unknown>
+
+  if (typeof n.id !== 'string' || !n.id) {
+    errors.push({
+      field: `nodes[${index}].id`,
+      message: 'Node must have a valid string id',
+    })
+  }
+
+  if (typeof n.position !== 'object' || n.position === null) {
+    errors.push({
+      field: `nodes[${index}].position`,
+      message: 'Node must have a position object',
+    })
+  } else {
+    const pos = n.position as Record<string, unknown>
+    if (typeof pos.x !== 'number') {
+      errors.push({
+        field: `nodes[${index}].position.x`,
+        message: 'Position x must be a number',
+      })
+    }
+    if (typeof pos.y !== 'number') {
+      errors.push({
+        field: `nodes[${index}].position.y`,
+        message: 'Position y must be a number',
+      })
+    }
+  }
+
+  if (typeof n.data !== 'object' || n.data === null) {
+    errors.push({
+      field: `nodes[${index}].data`,
+      message: 'Node must have a data object',
+    })
+  }
+
+  return errors
+}
+
+/**
+ * Validate edge structure
+ */
+const validateEdge = (edge: unknown, index: number): ValidationError[] => {
+  const errors: ValidationError[] = []
+
+  if (typeof edge !== 'object' || edge === null) {
+    errors.push({
+      field: `edges[${index}]`,
+      message: 'Edge must be an object',
+    })
+    return errors
+  }
+
+  const e = edge as Record<string, unknown>
+
+  if (typeof e.id !== 'string' || !e.id) {
+    errors.push({
+      field: `edges[${index}].id`,
+      message: 'Edge must have a valid string id',
+    })
+  }
+
+  if (typeof e.source !== 'string' || !e.source) {
+    errors.push({
+      field: `edges[${index}].source`,
+      message: 'Edge must have a valid source node id',
+    })
+  }
+
+  if (typeof e.target !== 'string' || !e.target) {
+    errors.push({
+      field: `edges[${index}].target`,
+      message: 'Edge must have a valid target node id',
+    })
+  }
+
+  return errors
+}
+
+/**
+ * Validate imported flow state with detailed error messages
+ */
+export const validateFlowJSON = (data: unknown): { valid: boolean; errors: ValidationError[] } => {
+  const errors: ValidationError[] = []
+
+  if (typeof data !== 'object' || data === null) {
+    errors.push({
+      field: 'root',
+      message: 'Flow data must be an object',
+    })
+    return { valid: false, errors }
+  }
 
   const flowState = data as Partial<FlowState>
 
-  return (
-    Array.isArray(flowState.nodes) &&
-    Array.isArray(flowState.edges) &&
-    typeof flowState.viewport === 'object' &&
-    flowState.viewport !== null &&
-    typeof flowState.viewport.x === 'number' &&
-    typeof flowState.viewport.y === 'number' &&
-    typeof flowState.viewport.zoom === 'number'
-  )
+  // Validate nodes
+  if (!Array.isArray(flowState.nodes)) {
+    errors.push({
+      field: 'nodes',
+      message: 'Nodes must be an array',
+    })
+  } else {
+    flowState.nodes.forEach((node, index) => {
+      errors.push(...validateNode(node, index))
+    })
+  }
+
+  // Validate edges
+  if (!Array.isArray(flowState.edges)) {
+    errors.push({
+      field: 'edges',
+      message: 'Edges must be an array',
+    })
+  } else {
+    flowState.edges.forEach((edge, index) => {
+      errors.push(...validateEdge(edge, index))
+    })
+  }
+
+  // Validate viewport
+  if (typeof flowState.viewport !== 'object' || flowState.viewport === null) {
+    errors.push({
+      field: 'viewport',
+      message: 'Viewport must be an object',
+    })
+  } else {
+    const viewport = flowState.viewport as Record<string, unknown>
+    if (typeof viewport.x !== 'number') {
+      errors.push({
+        field: 'viewport.x',
+        message: 'Viewport x must be a number',
+      })
+    }
+    if (typeof viewport.y !== 'number') {
+      errors.push({
+        field: 'viewport.y',
+        message: 'Viewport y must be a number',
+      })
+    }
+    if (typeof viewport.zoom !== 'number') {
+      errors.push({
+        field: 'viewport.zoom',
+        message: 'Viewport zoom must be a number',
+      })
+    }
+  }
+
+  // Validate version (optional, warning only)
+  if (flowState.version && typeof flowState.version !== 'string') {
+    errors.push({
+      field: 'version',
+      message: 'Version must be a string',
+    })
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  }
+}
+
+/**
+ * Validate imported flow state (legacy compatibility)
+ */
+export const validateFlowState = (data: unknown): data is FlowState => {
+  return validateFlowJSON(data).valid
 }
 
 /**
