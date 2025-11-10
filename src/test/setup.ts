@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterEach, vi } from 'vitest'
 
 // Mock ResizeObserver for React Flow
 globalThis.ResizeObserver = class ResizeObserver {
@@ -18,6 +18,21 @@ globalThis.DOMMatrixReadOnly = class DOMMatrixReadOnly {
     this.m22 = scale !== undefined ? +scale : 1
   }
 }
+
+// Mock window.matchMedia for theme system
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+})
 
 // Cleanup after each test
 afterEach(() => {

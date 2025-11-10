@@ -325,6 +325,97 @@ API calls and external integrations with status indicators.
 
 ---
 
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+This project is configured for one-click deployment to Vercel:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Coldaine/interactive-viz-framework)
+
+#### Manual Vercel Setup
+
+1. **Install Vercel CLI** (optional):
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Connect to Vercel**:
+   ```bash
+   vercel
+   ```
+
+3. **Deploy to production**:
+   ```bash
+   vercel --prod
+   ```
+
+#### Automatic Deployment via GitHub Integration
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import your GitHub repository
+3. Vercel will automatically detect the Vite framework
+4. Click "Deploy"
+
+**Configuration:** The `vercel.json` file is pre-configured with:
+- Build command: `npm run build`
+- Output directory: `dist`
+- SPA routing with catch-all rewrites
+- Security headers (X-Frame-Options, CSP, etc.)
+- Asset caching (1 year for `/assets/*`)
+
+#### Environment Variables
+
+No environment variables are required for the base deployment. If you add features that need env vars:
+
+1. Go to your Vercel project settings
+2. Navigate to "Environment Variables"
+3. Add your variables for Production/Preview/Development
+
+### CI/CD Pipeline
+
+Every push and pull request triggers automated checks:
+
+| Check | Description | Required for Merge |
+|-------|-------------|-------------------|
+| **Type Check** | TypeScript strict mode validation | ✅ Yes |
+| **Tests** | Vitest test suite (89 tests) | ✅ Yes |
+| **Build** | Production build verification | ✅ Yes |
+| **Bundle Size** | Track build output size | ℹ️ Info only |
+
+#### GitHub Actions Workflows
+
+**`.github/workflows/ci.yml`** - Main CI pipeline:
+- Runs on all branches and PRs
+- Parallel execution (lint, test, build)
+- Upload coverage reports and build artifacts
+- PR status checks prevent merging if tests fail
+
+**`.github/workflows/deploy.yml`** - Auto-deployment (optional):
+- Triggers on push to `main` branch
+- Requires Vercel secrets configured
+- Alternative to Vercel GitHub integration
+
+#### Required GitHub Secrets (for deploy.yml only)
+
+If using the automated deploy workflow, add these secrets to your repository:
+
+```bash
+VERCEL_TOKEN          # Get from https://vercel.com/account/tokens
+VERCEL_ORG_ID         # Found in Vercel team settings
+VERCEL_PROJECT_ID     # Found in Vercel project settings
+```
+
+**Note:** The Vercel GitHub integration is recommended over the deploy workflow for most use cases.
+
+### Live Demo
+
+🔗 **Production:** [https://interactive-viz-framework.vercel.app](https://interactive-viz-framework.vercel.app) *(coming soon)*
+
+Preview deployments are automatically created for every pull request.
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions! See [BLUEPRINT.md](./BLUEPRINT.md) for contribution guidelines.
