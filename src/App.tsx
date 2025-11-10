@@ -1,7 +1,8 @@
-import { ReactFlow, Background, Controls, MiniMap, Node, Edge } from '@xyflow/react'
+import { ReactFlow, Background, Controls, MiniMap, Node, Edge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import './styles/effects.css'
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
+import { useSaveRestore } from './hooks/useSaveRestore'
 import DataNode from './nodes/DataNode'
 import ActionNode from './nodes/ActionNode'
 import MediaNode from './nodes/MediaNode'
@@ -14,6 +15,7 @@ import SmartEdge from './edges/SmartEdge'
 import LabeledEdge from './edges/LabeledEdge'
 import GlowEdge from './edges/GlowEdge'
 import ParticleBackground from './components/ParticleBackground'
+import FlowControls from './components/FlowControls'
 
 const initialNodes: Node[] = [
   // DataNode examples
@@ -147,8 +149,26 @@ const initialEdges: Edge[] = [
 ]
 
 function App() {
-  const [nodes] = useState<Node[]>(initialNodes)
-  const [edges] = useState<Edge[]>(initialEdges)
+  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  const [edges, setEdges] = useState<Edge[]>(initialEdges)
+
+  // Save/Restore functionality with auto-save
+  const { saveFlow, loadFlow, exportFlow, importFlow } = useSaveRestore(
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    true, // auto-save enabled
+    3000 // auto-save delay: 3 seconds
+  )
+
+  // Load saved flow on mount
+  useEffect(() => {
+    const loaded = loadFlow()
+    if (loaded) {
+      console.log('Loaded saved flow from localStorage')
+    }
+  }, [loadFlow])
 
   const nodeTypes = useMemo(
     () => ({
@@ -173,17 +193,75 @@ function App() {
     []
   )
 
-  const onNodesChange = useCallback(() => {
-    // Will be implemented with state management
-  }, [])
+  const onNodesChange = useCallback(
+    (changes: NodeChange<Node>[]) => {
+      setNodes((nds) => applyNodeChanges(changes, nds))
+    },
+    [setNodes]
+  )
 
-  const onEdgesChange = useCallback(() => {
-    // Will be implemented with state management
-  }, [])
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange<Edge>[]) => {
+      setEdges((eds) => applyEdgeChanges(changes, eds))
+    },
+    [setEdges]
+  )
+
+  // Handle file import
+  const handleFileImport = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0]
+      if (file) {
+        importFlow(file).then((success) => {
+          if (success) {
+            console.log('Flow imported successfully')
+          } else {
+            alert('Failed to import flow. Please check the file format.')
+          }
+        })
+      }
+    },
+    [importFlow]
+  )
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <ParticleBackground />
+
+      {/* Save/Restore Controls */}
+      <div className="absolute top-4 left-4 flex flex-col gap-2 bg-white rounded-lg shadow-lg p-2 z-10">
+        <button
+          onClick={saveFlow}
+          className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors text-sm font-medium"
+          title="Save flow to localStorage"
+        >
+          💾 Save
+        </button>
+        <button
+          onClick={loadFlow}
+          className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium"
+          title="Load flow from localStorage"
+        >
+          📂 Load
+        </button>
+        <button
+          onClick={exportFlow}
+          className="px-3 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm font-medium"
+          title="Export flow as JSON file"
+        >
+          ⬇️ Export
+        </button>
+        <label className="px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors text-sm font-medium cursor-pointer text-center">
+          ⬆️ Import
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleFileImport}
+            className="hidden"
+          />
+        </label>
+      </div>
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -195,6 +273,7 @@ function App() {
       >
         <Background />
         <Controls />
+        <FlowControls />
         <MiniMap
           nodeColor={(node) => {
             switch (node.type) {
