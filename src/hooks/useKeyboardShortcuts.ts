@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import { Node, Edge, useReactFlow } from '@xyflow/react'
 
 interface KeyboardShortcutsOptions {
@@ -14,8 +14,8 @@ interface KeyboardShortcutsOptions {
 export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => {
   const { setNodes, setEdges, getNodes, getEdges, deleteElements, fitView } = useReactFlow()
 
-  // Clipboard for copy/paste operations
-  let clipboard: { nodes: Node[]; edges: Edge[] } | null = null
+  // Clipboard for copy/paste operations - use useRef to maintain state across renders
+  const clipboard = useRef<{ nodes: Node[]; edges: Edge[] } | null>(null)
 
   /**
    * Copy selected nodes and edges to clipboard
@@ -32,7 +32,7 @@ export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => 
       (edge) => selectedNodeIds.has(edge.source) && selectedNodeIds.has(edge.target)
     )
 
-    clipboard = {
+    clipboard.current = {
       nodes: selectedNodes,
       edges: selectedEdges,
     }
@@ -44,7 +44,7 @@ export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => 
    * Paste clipboard content
    */
   const pasteSelection = useCallback(() => {
-    if (!clipboard || clipboard.nodes.length === 0) {
+    if (!clipboard.current || clipboard.current.nodes.length === 0) {
       console.log('Clipboard is empty')
       return
     }
@@ -53,7 +53,7 @@ export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => 
 
     // Create new nodes with updated IDs and positions
     const idMapping = new Map<string, string>()
-    const newNodes = clipboard.nodes.map((node) => {
+    const newNodes = clipboard.current.nodes.map((node) => {
       const newId = `${node.id}-copy-${timestamp}`
       idMapping.set(node.id, newId)
 
@@ -69,7 +69,7 @@ export const useKeyboardShortcuts = (options: KeyboardShortcutsOptions = {}) => 
     })
 
     // Create new edges with updated IDs
-    const newEdges = clipboard.edges.map((edge) => ({
+    const newEdges = clipboard.current.edges.map((edge) => ({
       ...edge,
       id: `${edge.id}-copy-${timestamp}`,
       source: idMapping.get(edge.source) || edge.source,

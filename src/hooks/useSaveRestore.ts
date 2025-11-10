@@ -21,7 +21,7 @@ export const useSaveRestore = (
   autoSaveDelay = 3000 // 3 seconds
 ) => {
   const reactFlowInstance = useReactFlow()
-  const autoSaveTimer = useRef<NodeJS.Timeout | null>(null)
+  const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   /**
    * Save current flow state to localStorage
