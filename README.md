@@ -3,7 +3,7 @@
 > A production-ready, visually stunning React Flow-based diagram framework with advanced interactions, animations, and professional features.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://github.com/Coldaine/interactive-viz-framework)
-[![Tests](https://img.shields.io/badge/tests-9%20passing-success)](#)
+[![Tests](https://img.shields.io/badge/tests-89%20passing-success)](#)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](#)
 [![TypeScript](https://img.shields.io/badge/typescript-5.9.3-blue)](https://www.typescriptlang.org/)
 [![React Flow](https://img.shields.io/badge/react%20flow-12.9.2-ff0072)](https://reactflow.dev)
@@ -38,28 +38,32 @@ npm test
 npm run build
 ```
 
-Visit `http://localhost:3000` to see the framework in action.
+Visit `http://localhost:5173` to see the framework in action.
 
 ---
 
 ## ✨ Features
 
-### Core Capabilities (Current - 7/50 Complete)
+### Core Capabilities (Phase 1 Complete - 17/50 steps, 34%)
 - ✅ **Interactive Canvas** - Drag, zoom, pan with React Flow v12
-- ✅ **Custom Nodes** - DataNode with expandable charts and trend indicators
-- ✅ **Modern Stack** - Vite 7.2.2, React 19.2.0, TypeScript 5.9.3
-- ✅ **Styling** - Tailwind CSS v4.1.5 for rapid UI development
-- ✅ **Testing** - Vitest 4.0.8 with 9 passing tests (100% coverage)
+- ✅ **7 Custom Node Types** - DataNode, ActionNode, MediaNode, CodeNode, DecisionNode, LoopNode, IntegrationNode
+- ✅ **4 Custom Edge Types** - ParticleEdge, SmartEdge, LabeledEdge, GlowEdge with animations
+- ✅ **Framer Motion** - Smooth animations, hover effects, node transitions
+- ✅ **Visual Effects** - Particle background, glow effects, animated gradients
+- ✅ **Modern Stack** - Vite 7.2.2, React 19.2.0, TypeScript 5.9.3, Tailwind CSS 4.1.5
+- ✅ **Testing** - Vitest 4.0.8 with 89 passing tests (100% coverage)
 - ✅ **GitHub Integration** - Version control and collaboration ready
+
+**Next Priority:** Table stakes features (useReactFlow hook, Save/Restore, NodeToolbar, Panel, Connection Validation)
 
 ### Planned Features (See [ROADMAP.md](./ROADMAP.md))
 
-#### 🎨 Visual Polish
-- Animated particles flowing through edges
-- Glow effects on hover and selection
-- Node entry/exit animations with Framer Motion
-- Smooth zoom transitions
-- Animated background patterns
+#### 🎨 Visual Polish ✅ (Complete)
+- ✅ Animated particles flowing through edges
+- ✅ Glow effects on hover and selection
+- ✅ Node entry/exit animations with Framer Motion
+- ✅ Smooth zoom transitions
+- ✅ Animated background patterns
 
 #### 🎮 Advanced Interactions
 - Context menus (right-click)
@@ -109,7 +113,8 @@ Frontend:      React 19.2.0 + TypeScript 5.9.3
 Build Tool:    Vite 7.2.2
 Diagram:       @xyflow/react 12.9.2
 Styling:       Tailwind CSS 4.1.5
-Animation:     Framer Motion (planned)
+Animation:     Framer Motion 11.15.0
+Syntax:        Prism.js 1.30.0
 State:         Zustand (planned)
 Testing:       Vitest 4.0.8 + React Testing Library 16.3.0
 ```
@@ -119,17 +124,27 @@ Testing:       Vitest 4.0.8 + React Testing Library 16.3.0
 src/
 ├── nodes/              # Custom node components
 │   ├── DataNode.tsx    ✅ Complete
-│   ├── ActionNode.tsx  📋 Next
-│   ├── MediaNode.tsx
-│   ├── CodeNode.tsx
-│   ├── DecisionNode.tsx
-│   ├── LoopNode.tsx
-│   └── IntegrationNode.tsx
-├── edges/              # Custom edge components (planned)
-├── components/         # UI components (planned)
+│   ├── ActionNode.tsx  ✅ Complete
+│   ├── MediaNode.tsx   ✅ Complete
+│   ├── CodeNode.tsx    ✅ Complete
+│   ├── DecisionNode.tsx ✅ Complete
+│   ├── LoopNode.tsx    ✅ Complete
+│   └── IntegrationNode.tsx ✅ Complete
+├── edges/              # Custom edge components
+│   ├── ParticleEdge.tsx ✅ Complete
+│   ├── SmartEdge.tsx   ✅ Complete
+│   ├── LabeledEdge.tsx ✅ Complete
+│   └── GlowEdge.tsx    ✅ Complete
+├── components/         # UI components
+│   ├── AnimatedNode.tsx ✅ Complete
+│   └── ParticleBackground.tsx ✅ Complete
+├── utils/              # Helper functions
+│   ├── animations.ts   ✅ Complete
+│   └── motionConfig.ts ✅ Complete
+├── styles/             # CSS and visual effects
+│   └── effects.css     ✅ Complete
 ├── hooks/              # Custom React hooks (planned)
 ├── store/              # Zustand state management (planned)
-├── utils/              # Helper functions (planned)
 ├── types/              # TypeScript definitions (planned)
 └── App.tsx             # Main application
 ```
@@ -148,14 +163,14 @@ src/
 - [x] Tailwind CSS v4 setup
 - [x] DataNode with interactive features
 
-### Phase 1: Core Nodes & Visual Effects 🚧 (In Progress)
-**Steps 8-17** | Est. 12 hours | Priority: HIGH
+### Phase 1: Core Nodes & Visual Effects ✅ (Complete)
+**Steps 8-17** | 100% Complete | 89 Tests Passing
 
-- [ ] ActionNode, MediaNode, CodeNode
-- [ ] DecisionNode, LoopNode, IntegrationNode
-- [ ] Framer Motion integration
-- [ ] Animated edges (Particle, Smart, Labeled, Glow)
-- [ ] Visual effects (glow, particles, backgrounds)
+- [x] ActionNode, MediaNode, CodeNode
+- [x] DecisionNode, LoopNode, IntegrationNode
+- [x] Framer Motion integration
+- [x] Animated edges (Particle, Smart, Labeled, Glow)
+- [x] Visual effects (glow, particles, backgrounds)
 
 ### Phase 2: Advanced Interactions
 **Steps 18-25** | Est. 16 hours | Priority: HIGH
@@ -178,11 +193,11 @@ src/
 
 ## 📊 Progress
 
-**Overall:** 7/50 steps complete (14%)
+**Overall:** 17/50 steps complete (34%)
 
 ```
 Phase 0: ████████████████████ 100% (Foundation)
-Phase 1: ███░░░░░░░░░░░░░░░░░  15% (Nodes & Effects)
+Phase 1: ████████████████████ 100% (Nodes & Effects)
 Phase 2: ░░░░░░░░░░░░░░░░░░░░   0% (Interactions)
 Phase 3: ░░░░░░░░░░░░░░░░░░░░   0% (State)
 Phase 4: ░░░░░░░░░░░░░░░░░░░░   0% (Canvas)
@@ -211,9 +226,9 @@ npm test -- --watch
 ```
 
 **Current Test Stats:**
-- **Test Files:** 2 passing
-- **Tests:** 9 passing
-- **Duration:** ~1.6s
+- **Test Files:** 9 passing
+- **Tests:** 89 passing
+- **Duration:** ~2.5s
 - **Coverage:** 100%
 
 ---
@@ -246,23 +261,67 @@ Display metrics, KPIs, and data visualizations.
 }
 ```
 
-### ActionNode 📋 (Next)
+### ActionNode ✅ (Complete)
 Execute actions and trigger workflows with buttons and controls.
 
-### MediaNode
+**Features:**
+- Primary/secondary action buttons
+- Dropdown menu with option selection
+- Toggle switch with state management
+- Loading/success/error states
+- Interactive controls without drag interference
+
+### MediaNode ✅ (Complete)
 Display images, videos, and rich media with preview capabilities.
 
-### CodeNode
+**Features:**
+- Image/video preview with thumbnails
+- Click-to-zoom lightbox
+- Upload state indicators (uploading, uploaded, error)
+- File type icons
+- Media player controls for videos
+
+### CodeNode ✅ (Complete)
 Display and edit code snippets with syntax highlighting.
 
-### DecisionNode
+**Features:**
+- Syntax highlighting for 6 languages (JS, TS, Python, JSX, TSX, Markup)
+- Language selector dropdown
+- Copy to clipboard functionality
+- Expandable code blocks
+- Light/dark theme support
+- Powered by Prism.js
+
+### DecisionNode ✅ (Complete)
 Conditional branching logic with true/false paths.
 
-### LoopNode
+**Features:**
+- Diamond shape with CSS clip-path
+- Editable condition with inline input
+- True/false output handles (left/right)
+- Color-coded paths (green/red)
+- Visual distinction for conditional logic
+
+### LoopNode ✅ (Complete)
 Iteration and repeated operations with progress tracking.
 
-### IntegrationNode
+**Features:**
+- Loop type selector (for, while, forEach)
+- Iteration counter (current/max)
+- Progress bar visualization
+- Start/pause/resume/stop controls
+- Running/paused/completed status indicators
+
+### IntegrationNode ✅ (Complete)
 API calls and external integrations with status indicators.
+
+**Features:**
+- HTTP method selector (GET, POST, PUT, DELETE, PATCH) with color coding
+- Endpoint URL input
+- Service type selector (REST, GraphQL, WebSocket)
+- Request status tracking (idle, pending, success, error)
+- Response preview with expand/collapse
+- Simulated request execution
 
 ---
 

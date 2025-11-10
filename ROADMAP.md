@@ -1,6 +1,6 @@
 # Interactive Visualization Framework - Detailed Roadmap
 
-## 📍 Current Progress: 7/40 Steps Complete (17.5%)
+## 📍 Current Progress: 17/50 Steps Complete (34%)
 
 ---
 
@@ -51,189 +51,118 @@
 
 ---
 
-### 🚧 Steps 8-17: Core Nodes & Visual Effects (IN PROGRESS)
+### ✅ Steps 8-17: Core Nodes & Visual Effects (COMPLETE)
+- **Status:** 100% complete
+- **Tests:** 89 passing
+- **Commits:** Multiple
 
-#### Step 8: 🔄 Create ActionNode with tests
-**Estimated:** 45 minutes | **Priority:** HIGH
+#### Step 8: ✅ Create ActionNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- Primary action button (large, prominent)
-- Secondary action button (smaller, outline)
-- Dropdown menu with options
-- Toggle switch for binary settings
-- Loading state with spinner
-- Success/error state indicators
+**Implemented Features:**
+- Primary/secondary action buttons
+- Dropdown menu with option selection
+- Toggle switch with state management
+- Loading/success/error states
+- Interactive controls without drag interference
 
-**Tests Required:**
-- Button click handlers
-- Dropdown open/close
-- Toggle state changes
-- Loading state display
-- Success/error styling
-
-**Files:**
-- `src/nodes/ActionNode.tsx`
-- `src/nodes/ActionNode.test.tsx`
-- Update `src/App.tsx` to include ActionNode
+**Tests:** 11 passing
 
 ---
 
-#### Step 9: MediaNode with tests
-**Estimated:** 45 minutes | **Priority:** HIGH
+#### Step 9: ✅ MediaNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- Image preview with placeholder
-- Video player controls (play/pause)
-- Thumbnail display
-- File type indicator icon
-- Upload state UI
-- Lightbox zoom on click
+**Implemented Features:**
+- Image/video preview with thumbnails
+- Click-to-zoom lightbox
+- Upload state indicators (uploading, uploaded, error)
+- File type icons
+- Media player controls
 
-**Tests Required:**
-- Image rendering
-- Video controls
-- File type detection
-- Upload state display
-
-**Files:**
-- `src/nodes/MediaNode.tsx`
-- `src/nodes/MediaNode.test.tsx`
+**Tests:** 14 passing
 
 ---
 
-#### Step 10: CodeNode with tests
-**Estimated:** 1 hour | **Priority:** MEDIUM
+#### Step 10: ✅ CodeNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- Syntax highlighting (use Prism.js or highlight.js)
-- Language selector dropdown (JS, TS, Python, etc.)
-- Line numbers
-- Copy to clipboard button
-- Theme toggle (light/dark code theme)
-- Expandable code block
+**Implemented Features:**
+- Syntax highlighting for 6 languages (JS, TS, Python, JSX, TSX, Markup)
+- Language selector dropdown
+- Copy to clipboard functionality
+- Expandable code blocks
+- Light/dark theme support
+- Powered by Prism.js
 
-**Dependencies:**
-```bash
-npm install prismjs @types/prismjs
-```
-
-**Tests Required:**
-- Code rendering
-- Language switching
-- Copy functionality (mock clipboard API)
-- Theme switching
-
-**Files:**
-- `src/nodes/CodeNode.tsx`
-- `src/nodes/CodeNode.test.tsx`
+**Tests:** 11 passing
 
 ---
 
-#### Step 11: DecisionNode with tests
-**Estimated:** 45 minutes | **Priority:** MEDIUM
+#### Step 11: ✅ DecisionNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- Diamond or hexagon shape (using custom styling)
-- True/false output handles (green/red)
-- Condition display
-- Conditional expression editor
-- Visual branch indicators
+**Implemented Features:**
+- Diamond shape with CSS clip-path
+- Editable condition with inline input
+- True/false output handles (left/right)
+- Color-coded paths (green/red)
+- Visual distinction for conditional logic
 
-**Tests Required:**
-- Handle positioning
-- Condition display
-- True/false path styling
-
-**Files:**
-- `src/nodes/DecisionNode.tsx`
-- `src/nodes/DecisionNode.test.tsx`
+**Tests:** 11 passing
 
 ---
 
-#### Step 12: LoopNode with tests
-**Estimated:** 45 minutes | **Priority:** MEDIUM
+#### Step 12: ✅ LoopNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- Loop counter display (e.g., "3 / 10")
-- Iteration limit input
-- Start/pause/stop controls
-- Progress bar or circular progress
+**Implemented Features:**
 - Loop type selector (for, while, forEach)
+- Iteration counter (current/max)
+- Progress bar visualization
+- Start/pause/resume/stop controls
+- Running/paused/completed status indicators
 
-**Tests Required:**
-- Counter display
-- Control buttons
-- Progress indicator
-- Iteration limits
-
-**Files:**
-- `src/nodes/LoopNode.tsx`
-- `src/nodes/LoopNode.test.tsx`
+**Tests:** 10 passing
 
 ---
 
-#### Step 13: IntegrationNode with tests
-**Estimated:** 1 hour | **Priority:** MEDIUM
+#### Step 13: ✅ IntegrationNode with tests
+**Status:** ✅ Complete
 
-**Features:**
-- HTTP method selector (GET, POST, PUT, DELETE)
+**Implemented Features:**
+- HTTP method selector (GET, POST, PUT, DELETE, PATCH) with color coding
 - Endpoint URL input
-- Request status indicator (pending, success, error)
-- Response preview
-- Headers/params editor (collapsible)
-- Service icon (REST, GraphQL, WebSocket)
+- Service type selector (REST, GraphQL, WebSocket)
+- Request status tracking (idle, pending, success, error)
+- Response preview with expand/collapse
+- Simulated request execution
 
-**Tests Required:**
-- Method selection
-- URL input validation
-- Status indicators
-- Response display
-
-**Files:**
-- `src/nodes/IntegrationNode.tsx`
-- `src/nodes/IntegrationNode.test.tsx`
+**Tests:** 13 passing
 
 ---
 
-#### Step 14: Install and configure Framer Motion
-**Estimated:** 30 minutes | **Priority:** HIGH
+#### Step 14: ✅ Install and configure Framer Motion
+**Status:** ✅ Complete
 
-**Actions:**
-```bash
-npm install framer-motion
-```
-
-**Research:** Latest Framer Motion best practices for 2025
-
-**Setup:**
-- Create animation variants
-- Configure motion components
-- Add spring physics settings
-
-**Files:**
-- `src/utils/animations.ts` - Shared animation variants
-- `src/utils/motionConfig.ts` - Motion configuration
-
-**Tests:**
-- Animation render tests (snapshot testing)
+**Implemented:**
+- Installed framer-motion 11.15.0
+- Created animation variants (nodeVariants, fadeVariants, slideUpVariants, glowVariants, staggerContainerVariants)
+- Created motion configuration (springConfig with default, bouncy, gentle, stiff)
+- Files: `src/utils/animations.ts`, `src/utils/motionConfig.ts`
 
 ---
 
-#### Step 15: Implement custom animated edges with tests
-**Estimated:** 1.5 hours | **Priority:** HIGH
+#### Step 15: ✅ Implement custom animated edges with tests
+**Status:** ✅ Complete
 
-**Edge Types:**
+**Implemented Edge Types:**
+1. **ParticleEdge** - Animated particles flowing along path using SVG animateMotion
+2. **SmartEdge** - Bezier curves with custom styling
+3. **LabeledEdge** - Inline labels using EdgeLabelRenderer
+4. **GlowEdge** - Layered glow effect with blur filter
 
-1. **ParticleEdge** - Particles flowing along path
-2. **SmartEdge** - Auto-routing around nodes
-3. **LabeledEdge** - Inline editable labels
-4. **GlowEdge** - Animated glow effect
-
-**Features:**
-- Configurable animation speed
-- Color-coded by connection type
-- Hover interactions
-- Double-click to edit label
+**Tests:** 10 passing (4 edge types with multiple tests each)
 
 **Files:**
 - `src/edges/ParticleEdge.tsx`
@@ -242,53 +171,272 @@ npm install framer-motion
 - `src/edges/GlowEdge.tsx`
 - `src/edges/edges.test.tsx`
 
-**Dependencies:**
-```bash
-npm install @xyflow/react elkjs d3-path
-```
-
 ---
 
-#### Step 16: Add node entry/exit animations
-**Estimated:** 45 minutes | **Priority:** MEDIUM
+#### Step 16: ✅ Add node entry/exit animations
+**Status:** ✅ Complete
 
-**Features:**
-- Fade + scale animation on node creation
-- Smooth exit animation on deletion
-- Stagger animations for bulk operations
-- Configurable duration and easing
-
-**Implementation:**
-- Wrap nodes in Framer Motion `<motion.div>`
-- Use `initial`, `animate`, `exit` props
-- Add `AnimatePresence` for exit animations
+**Implemented Features:**
+- AnimatedNode HOC wrapper component
+- Entry/exit animations using nodeVariants
+- Hover scale (1.02) and tap scale (0.98)
+- Selection glow via drop-shadow filter
+- AnimatePresence for exit animations
 
 **Files:**
-- Update all node components to use motion
-- `src/components/AnimatedNode.tsx` - HOC wrapper
+- `src/components/AnimatedNode.tsx`
 
 ---
 
-#### Step 17: Add visual effects (glow, particles, backgrounds)
-**Estimated:** 1 hour | **Priority:** MEDIUM
+#### Step 17: ✅ Add visual effects (glow, particles, backgrounds)
+**Status:** ✅ Complete
 
-**Effects:**
-1. **Glow on Hover** - CSS box-shadow with blur
-2. **Selection Glow** - Animated pulsing ring
-3. **Particle Background** - Animated dot grid
-4. **Connection Highlight** - Glow when hovering edge
-5. **Minimap Colors** - Node-type-based colors
+**Implemented Effects:**
+1. **Particle Background** - 50 floating particles with vertical animation and opacity pulsing
+2. **Visual Effects CSS** - Glow on hover, selection glow, edge glow, smooth transitions, fade-in, scale-in, animated gradients
+3. **Minimap Colors** - Color-coded by node type (7 distinct colors)
 
 **Files:**
 - `src/components/ParticleBackground.tsx`
 - `src/styles/effects.css`
-- Update `src/App.tsx` with effects
+- Updated `src/App.tsx`
 
 ---
 
-## Phase 2: Advanced Interactions (Steps 18-25)
+## Phase 2A: Table Stakes Features (Steps 18-25) 🎯 NEXT PRIORITY
 
-#### Step 18: Context menu system with tests
+> **Critical React Flow features that should be implemented before advanced interactions**
+
+This phase focuses on essential React Flow functionality that provides the foundation for a professional diagram application.
+
+#### Step 18: useReactFlow hook integration
+**Estimated:** 1 hour | **Priority:** CRITICAL
+
+**Features:**
+- Access React Flow instance for programmatic control
+- Fit view to nodes
+- Zoom to specific nodes
+- Get node/edge information
+- Update viewport programmatically
+
+**Implementation:**
+- Use `useReactFlow()` hook in App.tsx
+- Create utility functions for common operations
+- Add controls for fit view, zoom in/out, center
+
+**Files:**
+- Update `src/App.tsx` with useReactFlow
+- `src/hooks/useFlowControl.ts` - Custom hook wrapper
+- `src/components/FlowControls.tsx` - UI controls
+
+**Tests:**
+- useReactFlow hook access
+- Programmatic viewport updates
+- Fit view functionality
+
+---
+
+#### Step 19: Save/Restore flow state with toObject()
+**Estimated:** 1.5 hours | **Priority:** CRITICAL
+
+**Features:**
+- Save flow state to localStorage using `toObject()`
+- Restore flow from saved state
+- Auto-save on changes (debounced)
+- Export/import JSON flow data
+- Handle viewport restoration
+
+**Implementation:**
+- Use React Flow's `toObject()` method
+- Store in localStorage with versioning
+- Restore using `setNodes()`, `setEdges()`, `setViewport()`
+
+**Files:**
+- `src/hooks/useSaveRestore.ts`
+- `src/utils/flowStorage.ts`
+- Update `src/App.tsx` with save/restore logic
+
+**Tests:**
+- Save flow to localStorage
+- Restore flow from storage
+- Auto-save on changes
+- Viewport restoration
+
+---
+
+#### Step 20: NodeToolbar component implementation
+**Estimated:** 1.5 hours | **Priority:** HIGH
+
+**Features:**
+- Floating toolbar above selected node
+- Doesn't scale with zoom (stays readable)
+- Quick actions: Delete, Duplicate, Color, Lock
+- Custom actions per node type
+- Keyboard shortcuts integration
+
+**Implementation:**
+- Use React Flow's `<NodeToolbar>` component
+- Position: top, offset from node
+- Conditional rendering based on selection
+
+**Files:**
+- `src/components/NodeToolbar.tsx`
+- Update node components to include toolbar
+- `src/components/NodeToolbar.test.tsx`
+
+**Tests:**
+- Toolbar visibility on selection
+- Toolbar positioning
+- Action button functionality
+- Keyboard shortcuts
+
+---
+
+#### Step 21: Panel component for UI overlays
+**Estimated:** 1 hour | **Priority:** HIGH
+
+**Features:**
+- Use React Flow's `<Panel>` for UI overlays
+- Top panel: Title and main controls
+- Bottom-left panel: Zoom controls
+- Top-right panel: View options
+- Bottom-right panel: Node count/stats
+- Doesn't affect canvas interaction
+
+**Implementation:**
+- Replace custom positioned divs with `<Panel>`
+- Four position options: top-left, top-right, bottom-left, bottom-right
+
+**Files:**
+- `src/components/TopPanel.tsx`
+- `src/components/ZoomPanel.tsx`
+- `src/components/StatsPanel.tsx`
+- Update `src/App.tsx` with Panel components
+
+**Tests:**
+- Panel rendering at correct positions
+- Panel content updates
+- Panel interaction independence
+
+---
+
+#### Step 22: Connection validation with isValidConnection
+**Estimated:** 1.5 hours | **Priority:** HIGH
+
+**Features:**
+- Validate connections before creation
+- Type-based validation (e.g., Data → Action allowed, Data → Data not allowed)
+- Max connections per handle
+- Visual feedback for invalid connections
+- Custom validation rules per node type
+
+**Implementation:**
+- Use React Flow's `isValidConnection` prop
+- Define connection rules in config
+- Show error messages for invalid connections
+
+**Files:**
+- `src/utils/connectionValidation.ts`
+- `src/types/connectionRules.ts`
+- Update `src/App.tsx` with isValidConnection
+- `src/utils/connectionValidation.test.ts`
+
+**Tests:**
+- Valid connections allowed
+- Invalid connections blocked
+- Type-based validation
+- Max connections enforcement
+
+---
+
+#### Step 23: Edge reconnection with edgesReconnectable
+**Estimated:** 45 minutes | **Priority:** HIGH
+
+**Features:**
+- Allow users to reconnect edges by dragging edge endpoints
+- Validate reconnection with same rules as new connections
+- Smooth animation during reconnection
+- Update edge data on reconnection
+
+**Implementation:**
+- Set `edgesReconnectable={true}` on ReactFlow
+- Use `onReconnect` callback
+- Apply connection validation
+
+**Files:**
+- Update `src/App.tsx` with edgesReconnectable and onReconnect
+- Add reconnection handling logic
+
+**Tests:**
+- Edge reconnection functionality
+- Validation during reconnection
+- Edge data preservation
+
+---
+
+#### Step 24: Parent-child node relationships
+**Estimated:** 2 hours | **Priority:** HIGH
+
+**Features:**
+- Use `parentId` to create node hierarchies
+- Child nodes move with parent
+- Use `extent: 'parent'` to constrain children
+- Use `expandParent` to auto-resize parent
+- Visual indication of parent-child relationships
+- Group/ungroup operations
+
+**Implementation:**
+- Set `parentId` on child nodes
+- Configure `extent` for child boundaries
+- Create GroupNode component for visual parent
+
+**Files:**
+- `src/nodes/GroupNode.tsx`
+- `src/hooks/useGrouping.ts`
+- `src/utils/hierarchy.ts`
+- Update `src/App.tsx` with parent-child support
+
+**Tests:**
+- Child nodes move with parent
+- Extent constraints work
+- Parent auto-expansion
+- Group/ungroup operations
+
+---
+
+#### Step 25: Helper lines and alignment guides
+**Estimated:** 2 hours | **Priority:** MEDIUM
+
+**Features:**
+- Show alignment guides when dragging nodes
+- Snap to alignment (vertical/horizontal center lines)
+- Highlight when nodes align with others
+- Visual helper lines (dashed lines)
+- Configurable snap threshold
+
+**Implementation:**
+- Track node positions during drag
+- Calculate alignment with other nodes
+- Render helper lines using SVG
+- Apply snap adjustments
+
+**Files:**
+- `src/components/HelperLines.tsx`
+- `src/hooks/useHelperLines.ts`
+- `src/utils/alignment.ts`
+- Update `src/App.tsx` with helper lines
+
+**Tests:**
+- Helper lines appear during drag
+- Alignment detection
+- Snap behavior
+- Helper line rendering
+
+---
+
+## Phase 2B: Advanced Interactions (Steps 26-33)
+
+#### Step 26: Context menu system with tests
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Features:**
@@ -309,7 +457,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 19: Keyboard shortcuts with tests
+#### Step 27: Keyboard shortcuts with tests
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Shortcuts to Implement:**
@@ -335,7 +483,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 20: Multi-select with selection box
+#### Step 28: Multi-select with selection box
 **Estimated:** 1.5 hours | **Priority:** HIGH
 
 **Features:**
@@ -356,7 +504,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 21: Lasso selection tool
+#### Step 29: Lasso selection tool
 **Estimated:** 2 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -377,29 +525,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 22: Node grouping and parent-child relationships
-**Estimated:** 3 hours | **Priority:** HIGH
-
-**Features:**
-- Group selected nodes (Ctrl+G)
-- Create parent node that contains children
-- Expand/collapse group
-- Move group moves all children
-- Nested groups support
-
-**Implementation:**
-- Use React Flow's `parentId` property
-- Custom `GroupNode` component
-- Handle expand/collapse state
-
-**Files:**
-- `src/nodes/GroupNode.tsx`
-- `src/hooks/useGrouping.ts`
-- `src/nodes/GroupNode.test.tsx`
-
----
-
-#### Step 23: Node resizing with NodeResizer
+#### Step 30: Node resizing with NodeResizer
 **Estimated:** 1 hour | **Priority:** MEDIUM
 
 **Features:**
@@ -419,7 +545,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 24: Edge label editing
+#### Step 31: Edge label editing
 **Estimated:** 1.5 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -439,7 +565,7 @@ npm install @xyflow/react elkjs d3-path
 
 ---
 
-#### Step 25: Smart edge routing (floating edges)
+#### Step 32: Smart edge routing (floating edges)
 **Estimated:** 2 hours | **Priority:** LOW
 
 **Features:**
@@ -463,9 +589,27 @@ npm install elkjs
 
 ---
 
-## Phase 3: State Management & Persistence (Steps 26-30)
+#### Step 33: Grid snapping
+**Estimated:** 1 hour | **Priority:** MEDIUM
 
-#### Step 26: Zustand store implementation
+**Features:**
+- Snap to grid (configurable grid size: 10px, 15px, 20px)
+- Toggle grid visibility
+- Visual grid overlay
+
+**Implementation:**
+- React Flow's `snapGrid` prop
+- Grid background component
+
+**Files:**
+- Update `src/App.tsx` with snapGrid and snapToGrid props
+- `src/components/GridBackground.tsx`
+
+---
+
+## Phase 3: State Management & Persistence (Steps 34-38)
+
+#### Step 34: Zustand store implementation
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Stores:**
@@ -491,7 +635,7 @@ npm install zustand
 
 ---
 
-#### Step 27: Undo/Redo system
+#### Step 35: Undo/Redo system
 **Estimated:** 3 hours | **Priority:** HIGH
 
 **Features:**
@@ -513,29 +657,7 @@ npm install zustand
 
 ---
 
-#### Step 28: Save/Load functionality
-**Estimated:** 1.5 hours | **Priority:** HIGH
-
-**Features:**
-- Save flow to localStorage
-- Save flow to JSON file (download)
-- Load flow from JSON file (upload)
-- Auto-save (every 30 seconds)
-- Unsaved changes warning
-
-**Implementation:**
-- JSON serialization/deserialization
-- File API for download/upload
-- localStorage persistence
-
-**Files:**
-- `src/utils/storage.ts`
-- `src/hooks/useAutoSave.ts`
-- `src/utils/storage.test.ts`
-
----
-
-#### Step 29: Export functionality (PNG/SVG/JSON)
+#### Step 36: Export functionality (PNG/SVG/JSON)
 **Estimated:** 2 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -562,7 +684,7 @@ npm install html-to-image
 
 ---
 
-#### Step 30: Import from JSON
+#### Step 37: Import from JSON
 **Estimated:** 1 hour | **Priority:** MEDIUM
 
 **Features:**
@@ -577,9 +699,31 @@ npm install html-to-image
 
 ---
 
-## Phase 4: Advanced Canvas Features (Steps 31-36)
+#### Step 38: Dark mode with system preference
+**Estimated:** 1.5 hours | **Priority:** MEDIUM
 
-#### Step 31: Auto-layout with Dagre
+**Features:**
+- Toggle light/dark mode
+- Follow system preference (auto)
+- Persist preference to localStorage
+- Smooth transition animation
+- Update all components
+
+**Implementation:**
+- CSS variables for colors
+- `prefers-color-scheme` media query
+- Theme context provider
+
+**Files:**
+- `src/styles/themes.css`
+- `src/hooks/useTheme.ts`
+- `src/components/ThemeToggle.tsx`
+
+---
+
+## Phase 4: Advanced Canvas Features (Steps 39-42)
+
+#### Step 39: Auto-layout with Dagre
 **Estimated:** 3 hours | **Priority:** HIGH
 
 **Features:**
@@ -606,27 +750,7 @@ npm install dagre @types/dagre
 
 ---
 
-#### Step 32: Grid snapping and alignment guides
-**Estimated:** 2 hours | **Priority:** MEDIUM
-
-**Features:**
-- Snap to grid (configurable grid size: 10px, 15px, 20px)
-- Alignment guides (vertical/horizontal lines)
-- Distribute nodes evenly
-- Align selected nodes (left, center, right, top, middle, bottom)
-
-**Implementation:**
-- React Flow's `snapGrid` prop
-- Custom alignment guide rendering
-- Alignment utility functions
-
-**Files:**
-- `src/components/AlignmentGuides.tsx`
-- `src/utils/alignment.ts`
-
----
-
-#### Step 33: Search bar with node filtering
+#### Step 40: Search bar with node filtering
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Features:**
@@ -653,72 +777,41 @@ npm install fuse.js
 
 ---
 
-#### Step 34: Connection validation (type-based)
-**Estimated:** 2 hours | **Priority:** MEDIUM
+#### Step 41: Node minimap enhancements
+**Estimated:** 1 hour | **Priority:** LOW
 
 **Features:**
-- Define connection rules (e.g., Data → Action allowed)
-- Type-based validation (number → number, string → string)
-- Max connections per handle
-- Visual feedback (red highlight on invalid)
-
-**Implementation:**
-- Use React Flow's `isValidConnection` prop
-- Define validation rules
-- Display error messages
+- Interactive minimap with click to navigate
+- Highlight selected nodes in minimap
+- Custom minimap node rendering
+- Toggle minimap visibility
 
 **Files:**
-- `src/utils/validation.ts`
-- `src/types/connectionRules.ts`
-- `src/utils/validation.test.ts`
+- Update `src/App.tsx` MiniMap configuration
+- `src/components/CustomMiniMapNode.tsx`
 
 ---
 
-#### Step 35: Node toolbar with inline editing
-**Estimated:** 2 hours | **Priority:** MEDIUM
-
-**Features:**
-- Floating toolbar above selected node
-- Quick actions: Delete, Duplicate, Color, Lock
-- Inline label editing
-- Custom actions per node type
-
-**Implementation:**
-- Use React Flow's `NodeToolbar` component
-- Position dynamically
-- Action handlers
-
-**Files:**
-- `src/components/NodeToolbar.tsx`
-- `src/components/NodeToolbar.test.tsx`
-
----
-
-#### Step 36: Dark mode with system preference
+#### Step 42: Keyboard focus and navigation
 **Estimated:** 1.5 hours | **Priority:** MEDIUM
 
 **Features:**
-- Toggle light/dark mode
-- Follow system preference (auto)
-- Persist preference to localStorage
-- Smooth transition animation
-- Update all components
-
-**Implementation:**
-- CSS variables for colors
-- `prefers-color-scheme` media query
-- Theme context provider
+- Tab through nodes and edges
+- Arrow keys to navigate between nodes
+- Enter to select/deselect
+- Focus indicators
+- Skip links for accessibility
 
 **Files:**
-- `src/styles/themes.css`
-- `src/hooks/useTheme.ts`
-- `src/components/ThemeToggle.tsx`
+- Update all node components with tabIndex
+- `src/hooks/useKeyboardNav.ts`
+- `src/utils/focus.ts`
 
 ---
 
-## Phase 5: Performance & Optimization (Steps 37-38)
+## Phase 5: Performance & Optimization (Steps 43-44)
 
-#### Step 37: Virtualization for 1000+ nodes
+#### Step 43: Virtualization for 1000+ nodes
 **Estimated:** 4 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -735,7 +828,7 @@ npm install fuse.js
 
 ---
 
-#### Step 38: Performance testing and benchmarks
+#### Step 44: Performance testing and benchmarks
 **Estimated:** 2 hours | **Priority:** MEDIUM
 
 **Tests:**
@@ -756,9 +849,9 @@ npm install fuse.js
 
 ---
 
-## Phase 6: Collaboration Infrastructure (Steps 39-40)
+## Phase 6: Collaboration Infrastructure (Steps 45-46)
 
-#### Step 39: WebSocket setup for real-time sync
+#### Step 45: WebSocket setup for real-time sync
 **Estimated:** 4 hours | **Priority:** LOW
 
 **Features:**
@@ -785,7 +878,7 @@ npm install socket.io-client yjs y-websocket
 
 ---
 
-#### Step 40: Presence indicators (cursors)
+#### Step 46: Presence indicators (cursors)
 **Estimated:** 2 hours | **Priority:** LOW
 
 **Features:**
@@ -800,9 +893,9 @@ npm install socket.io-client yjs y-websocket
 
 ---
 
-## Phase 7: Accessibility & Polish (Steps 41-43)
+## Phase 7: Accessibility & Polish (Steps 47-49)
 
-#### Step 41: ARIA labels and keyboard navigation
+#### Step 47: ARIA labels and screen reader support
 **Estimated:** 2 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -821,7 +914,7 @@ npm install socket.io-client yjs y-websocket
 
 ---
 
-#### Step 42: Error boundaries and graceful degradation
+#### Step 48: Error boundaries and graceful degradation
 **Estimated:** 1.5 hours | **Priority:** MEDIUM
 
 **Features:**
@@ -841,7 +934,7 @@ npm install @sentry/react
 
 ---
 
-#### Step 43: Loading states and skeleton loaders
+#### Step 49: Loading states and skeleton loaders
 **Estimated:** 1 hour | **Priority:** LOW
 
 **Features:**
@@ -856,9 +949,9 @@ npm install @sentry/react
 
 ---
 
-## Phase 8: Documentation & Examples (Steps 44-46)
+## Phase 8: Documentation & Examples (Steps 50-52)
 
-#### Step 44: Interactive tutorial with tooltips
+#### Step 50: Interactive tutorial with tooltips
 **Estimated:** 3 hours | **Priority:** HIGH
 
 **Features:**
@@ -878,7 +971,7 @@ npm install react-joyride
 
 ---
 
-#### Step 45: Comprehensive README with examples
+#### Step 51: Comprehensive README with examples
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Sections:**
@@ -896,7 +989,7 @@ npm install react-joyride
 
 ---
 
-#### Step 46: API documentation
+#### Step 52: API documentation
 **Estimated:** 2 hours | **Priority:** MEDIUM
 
 **Tools:**
@@ -914,9 +1007,9 @@ npm install --save-dev typedoc storybook
 
 ---
 
-## Phase 9: DevOps & Deployment (Steps 47-50)
+## Phase 9: DevOps & Deployment (Steps 53-58)
 
-#### Step 47: GitHub Actions CI/CD pipeline
+#### Step 53: GitHub Actions CI/CD pipeline
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Pipeline:**
@@ -933,7 +1026,7 @@ npm install --save-dev typedoc storybook
 
 ---
 
-#### Step 48: Automated testing on PR
+#### Step 54: Automated testing on PR
 **Estimated:** 1 hour | **Priority:** HIGH
 
 **Features:**
@@ -947,7 +1040,7 @@ npm install --save-dev typedoc storybook
 
 ---
 
-#### Step 49: Deploy to Vercel with live demo
+#### Step 55: Deploy to Vercel with live demo
 **Estimated:** 1 hour | **Priority:** HIGH
 
 **Steps:**
@@ -960,58 +1053,105 @@ npm install --save-dev typedoc storybook
 
 ---
 
-#### Step 50: Final polish and launch
+#### Step 56: Bundle size optimization
+**Estimated:** 2 hours | **Priority:** MEDIUM
+
+**Features:**
+- Analyze bundle with vite-bundle-visualizer
+- Code splitting for routes
+- Tree shaking optimization
+- Lazy load heavy components
+- Remove unused dependencies
+
+**Tools:**
+- vite-bundle-visualizer
+- Bundle analyzer
+
+**Files:**
+- `vite.config.ts` - Optimization settings
+- `package.json` - Dependency cleanup
+
+---
+
+#### Step 57: Code quality and linting
+**Estimated:** 1.5 hours | **Priority:** MEDIUM
+
+**Tasks:**
+- ESLint strict configuration
+- Prettier formatting
+- Remove console.logs
+- Fix TypeScript any types
+- Code cleanup
+
+**Files:**
+- `.eslintrc.js`
+- `.prettierrc`
+- Run linter on all files
+
+---
+
+#### Step 58: Final polish and launch
 **Estimated:** 2 hours | **Priority:** HIGH
 
 **Tasks:**
-- Code cleanup
-- Remove console.logs
-- Optimize bundle size
-- Final testing
+- Final testing pass
 - Update README with live demo link
 - Create launch announcement
+- Version tagging (v1.0.0)
+- Changelog generation
 
 ---
 
 ## 📊 Estimated Time Summary
 
-| Phase | Steps | Estimated Time | Priority |
-|-------|-------|----------------|----------|
-| ✅ Phase 0: Foundation | 1-7 | ~4 hours | ✅ COMPLETE |
-| 🚧 Phase 1: Core Nodes | 8-17 | ~12 hours | HIGH |
-| Phase 2: Advanced Interactions | 18-25 | ~16 hours | HIGH |
-| Phase 3: State & Persistence | 26-30 | ~11 hours | HIGH |
-| Phase 4: Canvas Features | 31-36 | ~14 hours | MEDIUM |
-| Phase 5: Performance | 37-38 | ~6 hours | MEDIUM |
-| Phase 6: Collaboration | 39-40 | ~6 hours | LOW |
-| Phase 7: Accessibility | 41-43 | ~4.5 hours | MEDIUM |
-| Phase 8: Documentation | 44-46 | ~7 hours | HIGH |
-| Phase 9: DevOps | 47-50 | ~6 hours | HIGH |
-| **TOTAL** | **50 steps** | **~86.5 hours** | **~2-3 weeks** |
+| Phase | Steps | Estimated Time | Priority | Status |
+|-------|-------|----------------|----------|--------|
+| Phase 0: Foundation | 1-7 | ~4 hours | HIGH | ✅ COMPLETE |
+| Phase 1: Core Nodes & Effects | 8-17 | ~12 hours | HIGH | ✅ COMPLETE |
+| **Phase 2A: Table Stakes** | **18-25** | **~11 hours** | **CRITICAL** | **🎯 NEXT** |
+| Phase 2B: Advanced Interactions | 26-33 | ~16 hours | HIGH | Pending |
+| Phase 3: State & Persistence | 34-38 | ~11.5 hours | HIGH | Pending |
+| Phase 4: Canvas Features | 39-42 | ~9.5 hours | MEDIUM | Pending |
+| Phase 5: Performance | 43-44 | ~6 hours | MEDIUM | Pending |
+| Phase 6: Collaboration | 45-46 | ~6 hours | LOW | Pending |
+| Phase 7: Accessibility | 47-49 | ~4.5 hours | MEDIUM | Pending |
+| Phase 8: Documentation | 50-52 | ~7 hours | HIGH | Pending |
+| Phase 9: DevOps | 53-58 | ~8.5 hours | HIGH | Pending |
+| **TOTAL** | **58 steps** | **~96 hours** | **~2.5-3 weeks** | **34% Complete** |
 
 ---
 
 ## 🎯 Recommended Execution Order
 
-### Week 1: MVP (Focus on HIGH priority)
-- Steps 8-17: Complete all nodes and animations
-- Steps 18-19: Context menus and keyboard shortcuts
-- Steps 26-28: State management, undo/redo, save/load
-- **Goal:** Functional demo with all node types
+### Week 1: Core Features + Table Stakes (Focus on CRITICAL/HIGH priority)
+**Goals:** Functional demo with all node types + essential React Flow features
+- ✅ Steps 1-7: Foundation (COMPLETE)
+- ✅ Steps 8-17: All nodes and animations (COMPLETE)
+- 🎯 **Steps 18-25: Table Stakes Features (NEXT - 11 hours)**
+  - useReactFlow, Save/Restore, NodeToolbar, Panel, Connection Validation, Edge Reconnection, Parent-child, Helper lines
 
-### Week 2: Advanced Features
-- Steps 20-25: Multi-select, grouping, resizing
-- Steps 31-36: Auto-layout, search, validation
-- Steps 37-38: Performance optimization
-- **Goal:** Production-ready interactions
+### Week 2: Advanced Interactions + State Management
+**Goals:** Production-ready interactions and persistence
+- Steps 26-28: Context menus, keyboard shortcuts, multi-select
+- Steps 29-33: Lasso, resizing, edge editing, smart routing, grid snapping
+- Steps 34-38: Zustand, undo/redo, export/import, dark mode
+- **Estimated:** ~27 hours
 
-### Week 3: Polish & Deploy
-- Steps 41-43: Accessibility and error handling
-- Steps 44-46: Documentation and tutorial
-- Steps 47-50: CI/CD and deployment
-- **Goal:** Live deployment with documentation
+### Week 3: Canvas Features + Performance
+**Goals:** Advanced layout and optimization
+- Steps 39-42: Auto-layout, search, minimap enhancements, keyboard navigation
+- Steps 43-44: Virtualization and performance testing
+- **Estimated:** ~15.5 hours
+
+### Week 4: Polish, Documentation & Deploy
+**Goals:** Live deployment with full documentation
+- Steps 45-49: Collaboration (optional), accessibility, error handling, loading states
+- Steps 50-52: Tutorial, README, API docs
+- Steps 53-58: CI/CD, testing, deployment, optimization, launch
+- **Estimated:** ~26 hours
 
 ---
 
 **Last Updated:** 2025-11-10
-**Next Milestone:** Complete Steps 8-17 (Core Nodes & Visual Effects)
+**Current Progress:** 17/58 steps complete (34%)
+**Next Milestone:** Complete Phase 2A - Table Stakes Features (Steps 18-25)
