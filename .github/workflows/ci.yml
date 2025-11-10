@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI Pipeline (Dagger)
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
     branches: ['**']
 
 jobs:
-  # Job 1: Lint and Type Check
-  lint-and-typecheck:
-    name: Lint & Type Check
+  # Single job that runs the entire Dagger CI pipeline
+  dagger-ci:
+    name: Run Dagger CI Pipeline
     runs-on: ubuntu-latest
 
     steps:
@@ -25,105 +25,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run TypeScript type check
-        run: npx tsc --noEmit
-
-      # Note: Add ESLint when configured
-      # - name: Run ESLint
-      #   run: npm run lint
-
-  # Job 2: Test with Coverage
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests with coverage
-        run: npm test -- --coverage --run
+      - name: Run Dagger CI Pipeline
+        run: npm run dagger:ci
+        env:
+          CI: true
 
       - name: Upload coverage report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/
           retention-days: 30
 
-      # Optional: Generate coverage summary for PR comments
-      - name: Coverage Summary
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "## Test Coverage" >> $GITHUB_STEP_SUMMARY
-          echo "Coverage reports uploaded as artifacts" >> $GITHUB_STEP_SUMMARY
-
-  # Job 3: Build
-  build:
-    name: Build Project
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: Check build output
-        run: |
-          if [ ! -d "dist" ]; then
-            echo "Error: dist directory not created"
-            exit 1
-          fi
-          echo "Build successful, dist directory created"
-
-      - name: Calculate bundle size
-        run: |
-          BUNDLE_SIZE=$(du -sh dist | cut -f1)
-          echo "Bundle size: $BUNDLE_SIZE"
-          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Build Status: ✅ Success" >> $GITHUB_STEP_SUMMARY
-          echo "- Bundle Size: $BUNDLE_SIZE" >> $GITHUB_STEP_SUMMARY
-
       - name: Upload build artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: dist/
           retention-days: 7
 
-  # Job 4: PR Status Check (runs only on PRs)
-  pr-checks:
-    name: PR Status Check
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    needs: [lint-and-typecheck, test, build]
-
-    steps:
-      - name: All checks passed
+      - name: PR Status Summary
+        if: github.event_name == 'pull_request'
         run: |
-          echo "✅ All CI checks passed successfully"
           echo "## PR Ready to Merge" >> $GITHUB_STEP_SUMMARY
           echo "All required checks have passed:" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Type checking" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Tests with coverage" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Build" >> $GITHUB_STEP_SUMMARY
